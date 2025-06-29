@@ -1,129 +1,108 @@
-# 📦 Franchise Data API
+# 🌸 Blossom
 
-Una API desarrollada en Node.js + TypeScript que permite obtener datos de personajes de dos franquicias: **Pokémon** y **Digimon**. Se implementa una arquitectura hexagonal y se incluye soporte para logging, manejo de errores, y lógica de reintentos HTTP.
-
----
-
-## 🚀 Tecnologías usadas
-
-- Node.js
-- TypeScript
-- Express
-- Axios + axios-retry
-- Arquitectura Hexagonal (Ports & Adapters)
-- In-memory Logging
-- Docker (bonificación)
+Este proyecto es una API REST construida en Node.js con TypeScript, que permite obtener información de diferentes franquicias como Pokémon y Digimon. Aplica arquitectura hexagonal y principios SOLID, incluyendo casos de uso y adaptadores.  
 
 ---
 
-## 🧾 Endpoints
+## 🧠 Features
 
-### `GET /api/:franchise/:version`
-
-Permite consultar un personaje por franquicia.
-
-#### Parámetros:
-- `:franchise` → `pokemon` o `digimon`
-- `:version` → versión libre (ej: `v1`)
-- `metadata` (query param) → JSON con nombre del personaje
-- `config` (query param) → JSON con configuración (como la URL base)
-
-#### Ejemplo:
-
-```http
-GET /api/pokemon/v1?metadata={"name":"pikachu"}&config={"baseUrl":"https://pokeapi.co/api/v2"}
-```
-
-#### Respuesta esperada:
-
-```json
-{
-  "name": "pikachu",
-  "weight": 60,
-  "powers": ["static", "lightning-rod"],
-  "evolutions": ["pichu", "pikachu", "raichu"]
-}
-```
+- 🌐 API REST con Express
+- 🧱 Arquitectura hexagonal
+- 🎮 Adaptadores para franquicias: Pokémon y Digimon
+- 🪵 Logging persistente en memoria
+- ♻️ Retry automático con Axios para peticiones fallidas
+- 🧪 Tests con Jest
+- 🐳 Dockerfile listo para producción
 
 ---
 
-## 🛠️ Cómo correr el proyecto localmente
-
-### 1. Clona el repositorio
-
-```bash
-git clone <repo_url>
-cd <nombre_proyecto>
-```
-
-### 2. Instala dependencias
+## 🚀 Instalación
 
 ```bash
 npm install
 ```
 
-### 3. Ejecuta el servidor
+---
 
-```bash
-npm start
-```
+## 🔧 Scripts
 
-Accede luego a:  
-[http://localhost:3000/api/pokemon/v1?metadata={"name":"pikachu"}&config={"baseUrl":"https://pokeapi.co/api/v2"}](http://localhost:3000/api/pokemon/v1?metadata={"name":"pikachu"}&config={"baseUrl":"https://pokeapi.co/api/v2"})
+| Comando              | Descripción                        |
+|----------------------|------------------------------------|
+| `npm run dev`        | Inicia el servidor en desarrollo   |
+| `npm run build`      | Compila el proyecto a JavaScript   |
+| `npm run start`      | Ejecuta el proyecto compilado      |
+| `npm test`           | Ejecuta los tests                  |
 
 ---
 
-## 🐳 Docker (opcional)
+## 🐳 Docker
 
-### 1. Construir imagen
+Construye y corre el contenedor:
 
 ```bash
 docker build -t franchise-app .
-```
-
-### 2. Ejecutar contenedor
-
-```bash
 docker run -p 3000:3000 franchise-app
 ```
 
 ---
 
-## 🧪 Bonificaciones implementadas
+## 📫 Endpoints
 
-- ✅ Retry en llamadas HTTP (axios-retry)
-- ✅ Logging persistente (InMemoryLogRepository)
-- ✅ Arquitectura hexagonal
-- ✅ Dockerfile funcional
-- ✅ Configuración dinámica por query params
+### `GET /api/:franchise/:version?metadata={...}&config={...}`
+
+Ejemplo para Pokémon:
+
+```http
+GET http://localhost:3000/api/pokemon/v1?metadata={"name":"pikachu"}&config={"baseUrl":"https://pokeapi.co/api/v2"}
+```
+
+Ejemplo para Digimon:
+
+```http
+GET http://localhost:3000/api/digimon/v1?metadata={"name":"agumon"}&config={"baseUrl":"https://digi-api.com/api/v1"}
+```
 
 ---
 
-## 📁 Estructura del proyecto
+## ✅ Bonificaciones implementadas
 
+| Bonificación                        | Estado |
+|------------------------------------|--------|
+| Retry automático en Axios          | ✅     |
+| Logging persistente                | ✅     |
+| Tests con Jest                     | ✅     |
+| Dockerfile funcional               | ✅     |
+| README completo                    | ✅     |
+
+---
+
+## 🧪 Test
+
+Ejecutar tests con:
+
+```bash
+npm test
 ```
-src/
-├── api/
-│   ├── PokemonApiAdapter.ts
-│   └── DigimonApiAdapter.ts
-├── application/
-│   └── usecases/FetchFranchiseData.ts
-├── db/
-│   └── InMemoryLogRepository.ts
-├── ports/
-│   ├── ApiAdapter.ts
-│   └── LogRepository.ts
-├── server/
-│   └── ExpressAdapter.ts
-├── config/
-│   └── config.ts
-└── main.ts
+
+---
+
+## 🔄 Deploy (GitHub)
+
+Sube el proyecto a tu repositorio GitHub:
+
+```bash
+git init
+git remote add origin https://github.com/Rosemberg-Diaz/Blossom.git
+git add .
+git commit -m "Initial commit - Blossom project"
+git branch -M main
+git push -u origin main
 ```
 
 ---
 
 ## 👨‍💻 Autor
 
-Desarrollado por **Rosemberg Diaz**
+**Rosemberg Diaz**
 
 ---
