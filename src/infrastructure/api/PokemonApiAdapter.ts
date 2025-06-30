@@ -1,14 +1,13 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import { ApiAdapter } from '../../ports/ApiAdapter';
+import { FranchiseData } from '../../domain/models/FranchiseData';
 
 export class PokemonApiAdapter implements ApiAdapter {
   private http;
 
   constructor() {
     this.http = axios.create();
-
-    // 👇 Agregamos retry logic
     axiosRetry(this.http, {
       retries: 3,
       retryDelay: axiosRetry.exponentialDelay,
@@ -22,7 +21,7 @@ export class PokemonApiAdapter implements ApiAdapter {
     });
   }
 
-  async fetch(metadata: any, config: any) {
+  async fetch(metadata: any, config: any): Promise<FranchiseData> {
     const { name } = metadata;
     const { baseUrl } = config;
 
@@ -31,14 +30,12 @@ export class PokemonApiAdapter implements ApiAdapter {
     }
 
     try {
-      // Paso 1: Obtener datos del Pokémon
       const pokemonResponse = await this.http.get(`${baseUrl}/pokemon/${name}`);
       const pokemonData = pokemonResponse.data;
 
       const powers = pokemonData.abilities.map((a: any) => a.ability.name);
       const weight = pokemonData.weight;
 
-      // Paso 2: Obtener cadena de evolución
       const speciesResponse = await this.http.get(`${baseUrl}/pokemon-species/${name}`);
       const evolutionChainUrl = speciesResponse.data.evolution_chain.url;
 
@@ -58,13 +55,11 @@ export class PokemonApiAdapter implements ApiAdapter {
 
   private extractEvolutions(chain: any): string[] {
     const evolutions: string[] = [];
-
     let current = chain;
     while (current) {
       evolutions.push(current.species.name);
       current = current.evolves_to?.[0];
     }
-
     return evolutions;
   }
 }
